@@ -1,0 +1,13 @@
+{
+  "gain_range_db": [
+    -6,
+    6
+  ],
+  "time_shift_max_ms": 100,
+  "noise_factor_range": [
+    0.0,
+    0.05
+  ],
+  "reverb_probability": 0.1,
+  "silence_offset_max_ms": 200
+}

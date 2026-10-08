@@ -1,0 +1,48 @@
+{
+  "splits": {
+    "silence_train": 70,
+    "silence_val": 15,
+    "silence_test": 15,
+    "unknown_train": 70,
+    "unknown_val": 15,
+    "unknown_test": 15,
+    "zylose_train": 35,
+    "zylose_val": 7,
+    "zylose_test": 8
+  },
+  "speaker_info": {
+    "silence": {
+      "train_speakers": [
+        "speaker01"
+      ],
+      "val_speakers": [
+        "speaker01"
+      ],
+      "test_speakers": [
+        "speaker01"
+      ]
+    },
+    "unknown": {
+      "train_speakers": [
+        "speaker01"
+      ],
+      "val_speakers": [
+        "speaker01"
+      ],
+      "test_speakers": [
+        "speaker01"
+      ]
+    },
+    "zylose": {
+      "train_speakers": [
+        "speaker01"
+      ],
+      "val_speakers": [
+        "speaker01"
+      ],
+      "test_speakers": [
+        "speaker01"
+      ]
+    }
+  }
+}
