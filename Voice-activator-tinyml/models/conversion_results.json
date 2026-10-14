@@ -1,0 +1,22 @@
+{
+  "keras_accuracy": 0.9736841917037964,
+  "fp32_accuracy": 0.9736842105263158,
+  "int8_accuracy": 0.9473684210526315,
+  "fp32_size_kb": 7.33203125,
+  "int8_size_kb": 7.28125,
+  "compression_ratio": 1.0069742489270386,
+  "fp32_operators": [
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "FULLY_CONNECTED",
+    "MEAN",
+    "SOFTMAX"
+  ],
+  "int8_operators": [
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "FULLY_CONNECTED",
+    "MEAN",
+    "SOFTMAX"
+  ]
+}

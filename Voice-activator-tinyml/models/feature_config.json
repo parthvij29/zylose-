@@ -1,0 +1,12 @@
+{
+  "sample_rate": 16000,
+  "audio_duration": 1.0,
+  "window_length_ms": 30,
+  "frame_step_ms": 10,
+  "num_mel_bins": 40,
+  "num_mfcc": 13,
+  "n_fft": 480,
+  "hop_length": 160,
+  "expected_frames": 98,
+  "normalization": "per_feature"
+}

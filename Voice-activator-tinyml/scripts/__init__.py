@@ -1,0 +1,1 @@
+# Voice Activator TinyML - Scripts Package

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+
+# Data
+dataset/raw/
+dataset/processed/
+dataset/augmented/
+
+# Models
+models/*.tflite
+models/*.h5
+models/*.keras
+
+# Logs
+logs/
+*.log
+
+# Results
+results/*.png
+results/*.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Notebooks
+notebooks/*.ipynb
+.ipynb_checkpoints/
+
+# Temporary
+*.tmp
+*.temp
