@@ -1,0 +1,15 @@
+ZYLOSE INTENT CLASSIFIER EVALUATION REPORT
+==================================================
+Training Accuracy: 100.00%
+Test Accuracy    : 79.17%
+
+                  precision    recall  f1-score   support
+
+  DEVICE_CONTROL       0.75      1.00      0.86         6
+ EMERGENCY_ABORT       0.80      0.80      0.80         5
+ KNOWLEDGE_QUERY       0.75      1.00      0.86         6
+SYSTEM_TELEMETRY       1.00      0.43      0.60         7
+
+        accuracy                           0.79        24
+       macro avg       0.82      0.81      0.78        24
+    weighted avg       0.83      0.79      0.77        24
