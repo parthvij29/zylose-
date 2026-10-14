@@ -46,15 +46,35 @@ if not GEMINI_KEY and os.path.exists("Zylose-Dashboard/.env.local"):
     except Exception:
         pass
 
-# Load Custom Trained Deep Learning Intent Classifier
+# Load Custom Trained Deep Learning Intent Classifier (Model 2)
 INTENT_MODEL_PATH = os.path.join("models", "intent_model.joblib")
 intent_bundle = None
 if os.path.exists(INTENT_MODEL_PATH):
     try:
         intent_bundle = joblib.load(INTENT_MODEL_PATH)
-        print(f"[Loaded Model] Custom NLP Intent Classifier loaded from {INTENT_MODEL_PATH}")
+        print(f"[Loaded Model 2] Custom NLP Intent Classifier from {INTENT_MODEL_PATH}")
     except Exception as e:
         print(f"[Warning] Could not load intent model: {e}")
+
+# Load Custom Trained Speech Urgency Classifier (Model 3)
+URGENCY_MODEL_PATH = os.path.join("models", "urgency_model.joblib")
+urgency_bundle = None
+if os.path.exists(URGENCY_MODEL_PATH):
+    try:
+        urgency_bundle = joblib.load(URGENCY_MODEL_PATH)
+        print(f"[Loaded Model 3] Speech Urgency & Affective Classifier from {URGENCY_MODEL_PATH}")
+    except Exception as e:
+        print(f"[Warning] Could not load urgency model: {e}")
+
+def classify_urgency(text):
+    """Classify speech urgency using our custom-trained Model 3."""
+    if not urgency_bundle:
+        return "CALM_NORMAL", 50.0
+    vec = urgency_bundle["vectorizer"].transform([text])
+    pred = urgency_bundle["model"].predict(vec)[0]
+    probs = urgency_bundle["model"].predict_proba(vec)[0]
+    confidence = float(np.max(probs) * 100)
+    return pred, confidence
 
 # Initialize TTS Voice Engine
 tts_lock = threading.Lock()
@@ -109,7 +129,7 @@ def classify_intent(text):
     return pred, confidence
 
 def query_gemini_ai(question):
-    """Query Google Gemini for concise factual or generative answers."""
+    """Query Google Gemini or Wikipedia for concise factual and scientific answers."""
     if GEMINI_KEY:
         try:
             from google import genai
@@ -126,6 +146,19 @@ def query_gemini_ai(question):
             return response.text.strip()
         except Exception as e:
             print(f"[Gemini API fallback] {e}")
+
+    # Instant encyclopedic knowledge using Wikipedia
+    try:
+        import wikipedia
+        wikipedia.set_user_agent("ZyloseVoiceAssistant/1.0 (contact: student@bennett.edu.in)")
+        clean_q = re.sub(r'^(what is a|what is the|what is|who is|explain|tell me about|define)\s+', '', question, flags=re.IGNORECASE).strip()
+        search_hits = wikipedia.search(clean_q)
+        if search_hits:
+            summary = wikipedia.summary(search_hits[0], sentences=2, auto_suggest=False)
+            summary = re.sub(r'\[\d+\]', '', summary).strip()
+            return summary
+    except Exception as e:
+        pass
 
     # Instant knowledge fallback using search
     try:
@@ -218,11 +251,18 @@ def record_and_process_voice(ser):
         user_query = recognizer.recognize_google(recorded_audio)
         print(f"\n[Transcribed User Speech]: \"{user_query}\"", flush=True)
 
-        # 3. Custom Deep Learning NLP Intent Classification
-        intent, confidence = classify_intent(user_query)
-        print(f"[Custom NLP Intent Model]: {intent} (Confidence: {confidence:.1f}%)", flush=True)
+        # 3. Custom Deep Learning NLP Intent Classification (Model 2)
+        intent, intent_conf = classify_intent(user_query)
+        print(f"[Model 2 - NLP Intent]    : {intent} (Confidence: {intent_conf:.1f}%)", flush=True)
 
-        # 4. Action Execution & Response Generation
+        # 4. Custom Speech Urgency & Stress Detection (Model 3)
+        urgency, urgency_conf = classify_urgency(user_query)
+        print(f"[Model 3 - Speech Urgency] : {urgency} (Confidence: {urgency_conf:.1f}%)", flush=True)
+
+        if urgency == "HIGH_URGENCY":
+            print(">>> [PRIORITY ALERT] HIGH URGENCY / DISTRESS DETECTED! <<<", flush=True)
+
+        # 5. Action Execution & Response Generation
         print("[Executing action / generating answer...]", flush=True)
         answer = execute_intent_action(intent, user_query, ser)
         print(f"[Zylose Response]: {answer}\n", flush=True)
