@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  BrainCircuit,
   Activity,
   BarChart3,
   Cpu,
@@ -15,6 +16,7 @@ import { ZyloseLogo } from "@/components/ui/ZyloseLogo";
 
 const navItems = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
+  { href: "/models", label: "AIML Models", icon: BrainCircuit },
   { href: "/activity", label: "Activity", icon: Activity },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/devices", label: "Devices", icon: Cpu },

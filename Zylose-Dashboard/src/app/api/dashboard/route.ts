@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase, isSchemaMissingError } from "@/lib/supabase-server";
 import type { ApiDetectionType } from "@/lib/types";
+import { getTelemetry } from "@/lib/telemetry-store";
 
 export async function GET() {
   try {
@@ -74,6 +75,7 @@ export async function GET() {
 
     return NextResponse.json({
       events: recentEvents,
+      telemetry: getTelemetry(),
       stats: {
         total_zylose: distribution.zylose,
         total_unknown: distribution.unknown,

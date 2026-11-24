@@ -12,6 +12,10 @@ export interface ApiEvent {
   unknown_score: number;
   silence_score: number;
   status: ApiDetectionStatus;
+  query?: string | null;
+  response?: string | null;
+  intent?: string | null;
+  urgency?: string | null;
 }
 
 export interface ApiPagination {
@@ -58,10 +62,40 @@ export interface ApiAnalytics {
   detection_rate: number;
 }
 
+export interface ConversationItem {
+  id: string;
+  timestamp: string;
+  query: string;
+  response: string;
+  intent: string;
+  urgency: string;
+  confidence: number;
+}
+
+export interface AssistantTelemetry {
+  state: "IDLE" | "WAKE" | "LISTEN" | "PROCESSING" | "RESPONDING";
+  lastQuery: string;
+  lastResponse: string;
+  intent: string;
+  intentConfidence: number;
+  urgency: string;
+  urgencyConfidence: number;
+  oledText: string;
+  wakeConfidence: number;
+  speakerVerified?: boolean;
+  speakerConfidence?: number;
+  speakerName?: string;
+  asrConfidence?: number;
+  deviceId: string;
+  lastUpdated: string;
+  conversations: ConversationItem[];
+}
+
 export interface ApiDashboardResponse {
   events: ApiEvent[];
   stats: ApiStats;
   analytics: ApiAnalytics;
+  telemetry?: AssistantTelemetry;
 }
 
 export interface ApiDevice {
@@ -105,6 +139,10 @@ export interface DetectionEvent {
   silenceScore: number;
   unknownScore: number;
   status: DetectionStatus;
+  query?: string | null;
+  response?: string | null;
+  intent?: string | null;
+  urgency?: string | null;
 }
 
 export interface DeviceInfo {
@@ -178,6 +216,10 @@ export function mapEvent(api: ApiEvent): DetectionEvent {
     silenceScore: Math.round(api.silence_score * 100),
     unknownScore: Math.round(api.unknown_score * 100),
     status: api.status,
+    query: api.query ?? null,
+    response: api.response ?? null,
+    intent: api.intent ?? null,
+    urgency: api.urgency ?? null,
   };
 }
 

@@ -1,0 +1,9 @@
+{
+  "owner": "Parth",
+  "num_samples": 8,
+  "mean_pitch_hz": 127.4,
+  "pitch_std_hz": 7.4,
+  "spectral_centroid_hz": 613.2,
+  "spectral_rolloff_hz": 1003.9,
+  "verification_threshold": 68.0
+}

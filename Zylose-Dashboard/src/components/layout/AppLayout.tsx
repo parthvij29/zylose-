@@ -15,6 +15,7 @@ export function useSidebar() {
 
 const pageTitles: Record<string, string> = {
   "/": "Overview",
+  "/models": "AIML Architecture & Models",
   "/activity": "Activity",
   "/analytics": "Analytics",
   "/devices": "Devices",

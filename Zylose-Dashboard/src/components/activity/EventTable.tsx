@@ -153,15 +153,22 @@ export function EventTable({
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-7 h-7 rounded-md ${config.bg} flex items-center justify-center`}
+                        className={`w-7 h-7 rounded-md ${config.bg} flex items-center justify-center flex-shrink-0`}
                       >
                         <Icon className={`w-3.5 h-3.5 ${config.color}`} />
                       </div>
-                      <span
-                        className={`text-[13px] font-semibold ${config.color}`}
-                      >
-                        {event.type.toUpperCase()}
-                      </span>
+                      <div className="min-w-0">
+                        <span
+                          className={`text-[13px] font-semibold ${config.color}`}
+                        >
+                          {event.type.toUpperCase()}
+                        </span>
+                        {event.query && (
+                          <p className="text-[11px] text-zinc-400 truncate max-w-[220px]">
+                            &ldquo;{event.query}&rdquo;
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td className="px-4 py-3">

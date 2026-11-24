@@ -37,8 +37,18 @@ CREATE TABLE IF NOT EXISTS events (
   unknown_score NUMERIC(5,4) NOT NULL DEFAULT 0 CHECK (unknown_score >= 0 AND unknown_score <= 1),
   silence_score NUMERIC(5,4) NOT NULL DEFAULT 0 CHECK (silence_score >= 0 AND silence_score <= 1),
   status        TEXT NOT NULL CHECK (status IN ('confirmed', 'rejected', 'detected')),
+  query         TEXT,
+  response      TEXT,
+  intent        TEXT,
+  urgency       TEXT,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Migration for existing databases:
+ALTER TABLE events ADD COLUMN IF NOT EXISTS query TEXT;
+ALTER TABLE events ADD COLUMN IF NOT EXISTS response TEXT;
+ALTER TABLE events ADD COLUMN IF NOT EXISTS intent TEXT;
+ALTER TABLE events ADD COLUMN IF NOT EXISTS urgency TEXT;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_events_timestamp ON events (timestamp DESC);

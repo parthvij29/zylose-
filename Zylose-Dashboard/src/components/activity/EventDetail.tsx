@@ -1,7 +1,7 @@
 "use client";
 
 import type { DetectionEvent } from "@/lib/types";
-import { X, Zap, AlertCircle, Volume2 } from "lucide-react";
+import { X, Zap, AlertCircle, Volume2, MessageSquare, BrainCircuit } from "lucide-react";
 
 const typeConfig = {
   zylose: {
@@ -79,6 +79,33 @@ export function EventDetail({ event, onClose }: EventDetailProps) {
             </div>
 
             <div className="space-y-4">
+              {event.query && (
+                <div className="p-3.5 rounded-xl border border-indigo-500/30 bg-indigo-950/20 space-y-1">
+                  <span className="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <MessageSquare className="w-3 h-3" />
+                    Voice Question Asked
+                  </span>
+                  <p className="text-[13px] text-white font-medium">&ldquo;{event.query}&rdquo;</p>
+                </div>
+              )}
+
+              {event.response && (
+                <div className="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20 space-y-1">
+                  <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Zap className="w-3 h-3" />
+                    AI Response Delivered
+                  </span>
+                  <p className="text-[12px] text-zinc-200 leading-relaxed">{event.response}</p>
+                </div>
+              )}
+
+              {event.intent && (
+                <DetailRow label="NLP Intent (Model 2)" value={event.intent} mono />
+              )}
+              {event.urgency && (
+                <DetailRow label="Speech Urgency (Model 3)" value={event.urgency} mono />
+              )}
+
               <DetailRow label="Confidence" value={`${event.confidence}%`} />
               <DetailRow
                 label="Silence Score"

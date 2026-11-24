@@ -16,18 +16,20 @@ export default function DashboardPage() {
       events: data.events.map(mapEvent),
       stats: mapStats(data.stats),
       analytics: mapAnalytics(data.analytics),
+      telemetry: data.telemetry || null,
     })),
     []
   );
 
   usePolling(() => {
     dashboardResult.refetch();
-  }, 5_000);
+  }, 2_000);
 
   const events = dashboardResult.data?.events || [];
   const latestEvent = events[0] || null;
   const stats = dashboardResult.data?.stats;
   const analytics = dashboardResult.data?.analytics || null;
+  const telemetry = dashboardResult.data?.telemetry || null;
 
   const isLoading = dashboardResult.loading;
   const hasError = dashboardResult.error;
@@ -52,7 +54,7 @@ export default function DashboardPage() {
 
         {!isLoading && (
           <>
-            <LiveDetection latestEvent={latestEvent} />
+            <LiveDetection latestEvent={latestEvent} telemetry={telemetry} />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               <StatCard
@@ -85,7 +87,7 @@ export default function DashboardPage() {
 
             <DetectionChart analytics={analytics} />
 
-            <RecentDetections events={events} />
+            <RecentDetections events={events} conversations={telemetry?.conversations} />
           </>
         )}
       </div>
